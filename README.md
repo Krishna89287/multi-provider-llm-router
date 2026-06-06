@@ -10,47 +10,22 @@ Intelligent routing across OpenAI, Anthropic, Google and local models with circu
 **Stack:** Python · FastAPI · OpenAI · Anthropic · Google Gemini · Ollama · Redis
 
 
+
+![Demo](docs/demo.svg)
+
 ## Architecture
 
-```
-User Request
-    │
-    ▼
-┌─────────────────────────────────┐
-│         Task Classifier          │
-│  coding/reasoning/creative/     │
-│  summarization/classification   │
-└─────────────────────────────────┘
-    │
-    ▼
-┌─────────────────────────────────┐
-│         LLM Router               │
-│  Strategy: cost/performance/    │
-│            load_balanced        │
-└─────────────────────────────────┘
-    │
-    ▼
-┌─────────────────────────────────┐
-│       Circuit Breaker            │
-│  Failure threshold: 5           │
-│  Reset timeout: 60s             │
-└─────────────────────────────────┘
-    │
-    ├──────┬──────┬──────┬────────┐
-    ▼      ▼      ▼      ▼        ▼
-┌──────┐┌──────┐┌──────┐┌──────┐┌──────┐
-│GPT-4 ││Claude││Gemini││GPT-3 ││Ollama│
-│      ││Sonnet││Flash ││Turbo ││Local │
-└──────┘└──────┘└──────┘└──────┘└──────┘
-    │
-    ▼
-┌─────────────────────────────────┐
-│      Provider Registry           │
-│  Health Tracking · Stats        │
-│  Cost per 1k tokens             │
-└─────────────────────────────────┘
-```
+![Architecture](docs/architecture.svg)
 
+## Why This Project Exists
+
+Every company using LLMs in production eventually hits the same problems: one provider goes down, costs spike unexpectedly, or a specific task works much better on a different model.
+
+The naive solution is to hard-code one provider. The problem is that GPT-4 is overkill for classification tasks that Claude Haiku handles just as well at 1/100th the cost. And when OpenAI has an outage, your entire product stops working.
+
+This router solves both problems. It classifies each request by task type — coding, reasoning, summarisation, classification — and routes to the cheapest model that handles that task well. When a provider fails, the circuit breaker opens and requests automatically fall back to the next best option.
+
+In practice, routing intelligently across providers reduces LLM costs by 40-60% compared to using GPT-4 for everything, while improving reliability from a single provider's uptime to the combined uptime of multiple providers.
 
 
 ## Demo
