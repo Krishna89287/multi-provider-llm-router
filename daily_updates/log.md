@@ -22,3 +22,6 @@
 
 ## 2026-06-07 09:00
 - LangGraph: Checkpointing for recovery
+
+## 2026-06-08 09:06
+- Observability: Track p99 latency
