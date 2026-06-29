@@ -30,4 +30,4 @@ python router/llm_router.py
 
 ---
 
-Built by [Krishna Gove](https://github.com/Krishna89287) — working on AI and cloud infrastructure in Munich.
+Built by [Krishna Gove](https://github.com/Krishna89287), working on AI and cloud infrastructure in Munich.
