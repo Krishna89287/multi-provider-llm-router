@@ -1,16 +1,17 @@
-.PHONY: install test lint clean run
+.PHONY: install demo benchmark test clean
 
 install:
-	pip install -r requirements.txt
+	pip install -e ".[dev]"
+
+demo:
+	python -m llm_router.cli --strategy cost
+
+benchmark:
+	python benchmark/benchmark.py
 
 test:
-	pytest tests/ -v --tb=short
-
-run:
-	python router/llm_router.py
-
-lint:
-	flake8 . --max-line-length=120 --exclude=.venv
+	pytest -q
 
 clean:
-	find . -type d -name __pycache__ -exec rm -rf {} +
+	rm -rf build dist *.egg-info src/*.egg-info .pytest_cache
+	find . -type d -name __pycache__ -prune -exec rm -rf {} +
