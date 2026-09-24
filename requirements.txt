@@ -1,0 +1,7 @@
+# Core dependency: real token counting.
+tiktoken>=0.7
+
+# Optional, only needed for real API calls (the router runs in mock mode without
+# them). Install with: pip install openai anthropic
+# openai>=1.30
+# anthropic>=0.30
